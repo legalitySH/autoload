@@ -1,14 +1,18 @@
 <?php
 
+spl_autoload_register(function ($class) {
 
-$namespaceMap = array(
-    'Logger\\' => __DIR__ . '/logger/',
-    'Logger\\LoggerApi\\' => __DIR__ . '/api/',
-    'Logger\\LoggerWriters\\' => __DIR__ . '/writers/'
-);
+    $namespaceMap = array(
+        'Logger' => './logger',
+        'Logger\\LoggerApi' => './logger/api',
+        'Logger\\LoggerWriters' => './logger/writers',
+    );
 
-
-spl_autoload_register(function ($class) use ($namespaceMap) {
-    echo $class . PHP_EOL;
+    $parts = explode('\\', $class);
+    $namespace = implode('\\', array_slice($parts, 0, -1));
+    var_dump($namespace);
+    if (isset($namespaceMap[$namespace])) {
+        $path = $namespaceMap[$namespace] . '/' . end($parts) . '.php';
+        require_once $path;
+    }
 });
-

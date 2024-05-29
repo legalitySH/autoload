@@ -4,14 +4,14 @@ declare(strict_types = 0);
 namespace Logger;
 
 use Logger\LoggerApi\LoggerInterface;
-use Logger\LoggerApi\LoggerLevels;
 use Logger\LoggerWriters\FileLogWriter;
-use Logger\LoggerWriters\LogWriter;
 use PDO;
+use const Logger\LoggerApi\LOGGER_WARNING_LEVEL;
 
 class Logger implements LoggerInterface
 {
-    function __construct(PDO|string $loggingSource, private ?LogWriter $logWriter = null)
+    private $logWriter;
+    function __construct($loggingSource)
     {
         if ($loggingSource instanceof PDO) {
             // TODO : fill logWriter as database writer
@@ -20,21 +20,21 @@ class Logger implements LoggerInterface
 
     public function info(string $message): void
     {
-        $this->logWriter->write($message,LoggerLevels::info);
+        $this->logWriter->write($message,LOGGER_WARNING_LEVEL);
     }
 
     public function error(string $message): void
     {
-        $this->logWriter->write($message,LoggerLevels::error);
+        $this->logWriter->write($message,);
     }
 
     public function warning(string $message): void
     {
-        $this->logWriter->write($message,LoggerLevels::warning);
+        $this->logWriter->write($message,LoggerConstants::warning);
     }
 
     public function notice(string $message): void
     {
-        $this->logWriter->write($message,LoggerLevels::notice);
+        $this->logWriter->write($message,LoggerConstants::notice);
     }
 }
