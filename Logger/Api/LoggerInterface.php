@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Logger\LoggerApi;
+namespace Logger\Api;
 interface LoggerInterface
 {
     public function info(string $message): void;
